@@ -33,7 +33,7 @@ public class ReceiptPrinterTest {
 
     @Test
     public void total() {
-        ReceiptItem receiptItem1 = new ReceiptItem(toothbrush, 2, 0.99, 2*0.99);
+        ReceiptItem receiptItem1 = new ReceiptItem(toothbrush, 1, 0.99, 2*0.99);
         ReceiptItem receiptItem2 = new ReceiptItem(apples, 0.75, 1.99, 1.99*0.75);
         receipt.addProduct(receiptItem1);
         receipt.addProduct(receiptItem2);
