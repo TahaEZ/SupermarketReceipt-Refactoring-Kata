@@ -40,26 +40,35 @@ public class ShoppingCart {
                 double unitPrice = catalog.getUnitPrice(p);
                 int quantityAsInt = (int) quantity;
                 Discount discount = null;
-                if (offer.offerType == SpecialOfferType.TWO_FOR_AMOUNT) {
-                    discount = getTwoForAmountDiscount(p, quantity, offer, unitPrice, discount);
+                switch (offer.offerType) {
+                    case TWO_FOR_AMOUNT:
+                        discount = getTwoForAmountDiscount(p, quantity, offer, unitPrice, discount);
+                        break;
+                    case THREE_FOR_TWO:
+                        if (quantityAsInt > 2) {
+                            discount = getThreeForTwoDiscount(p, quantity, unitPrice, quantityAsInt);
+                        }
+                        break;
+                    case TEN_PERCENT_DISCOUNT:
+                        discount = getTenPercentDiscount(p, quantity, offer, unitPrice);
+                        break;
+                    case FIVE_FOR_AMOUNT:
+                        if (quantityAsInt >= 5) {
+                            discount = getFiveForAmountDiscount(p, quantity, offer, unitPrice, quantityAsInt);
+                        }
+                        break;
+                    default:
+                        break;
                 }
-                
-                else if (offer.offerType == SpecialOfferType.THREE_FOR_TWO && quantityAsInt > 2) {
-                    discount = getThreeForTwoDiscount(p, quantity, unitPrice, quantityAsInt);
-                }
-                else if (offer.offerType == SpecialOfferType.TEN_PERCENT_DISCOUNT) {
-                    discount = getTenPercentDiscount(p, quantity, offer, unitPrice);
-                }
-                else if (offer.offerType == SpecialOfferType.FIVE_FOR_AMOUNT && quantityAsInt >= 5) {
-                    discount = getFiveForAmountDiscount(p, quantity, offer, unitPrice, quantityAsInt);
-                }
-                if (discount != null)
+                if (discount != null) {
                     receipt.addDiscount(discount);
+                }
             }
         }
     }
 
-    private Discount getFiveForAmountDiscount(Product p, double quantity, Offer offer, double unitPrice, int quantityAsInt) {
+    private Discount getFiveForAmountDiscount(Product p, double quantity, Offer offer, double unitPrice,
+            int quantityAsInt) {
         Discount discount;
         double discountTotal = unitPrice * quantity
                 - (offer.argument * quantityAsInt + quantityAsInt % 5 * unitPrice);
@@ -95,5 +104,5 @@ public class ShoppingCart {
         }
         return discount;
     }
-    
+
 }
