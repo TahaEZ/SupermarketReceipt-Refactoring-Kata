@@ -13,8 +13,8 @@ public class Teller {
         this.catalog = catalog;
     }
 
-    public void addSpecialOffer(SpecialOfferType offerType, Product product, double argument) {
-        offers.put(product, new Offer(offerType, product, argument));
+    public void addSpecialOffer(Offer offer, Product product) {
+        offers.put(product, offer);
     }
 
     public Receipt checksOutArticlesFrom(ShoppingCart theCart) {
@@ -25,7 +25,8 @@ public class Teller {
             double quantity = pq.getQuantity();
             double unitPrice = catalog.getUnitPrice(p);
             double price = quantity * unitPrice;
-            receipt.addProduct(p, quantity, unitPrice, price);
+            ReceiptItem receiptItem = new ReceiptItem(p, quantity, unitPrice, price);
+            receipt.addProduct(receiptItem);
         }
         theCart.handleOffers(receipt, offers, catalog);
 
