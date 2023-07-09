@@ -71,8 +71,8 @@ public class ShoppingCart {
             int quantityAsInt) {
         Discount discount;
         double discountTotal = unitPrice * quantity
-                - (offer.argument * quantityAsInt + quantityAsInt % 5 * unitPrice);
-        discount = new Discount(p, 1 + " for " + offer.argument, -discountTotal);
+                - (offer.argument * (quantityAsInt/5) + quantityAsInt % 5 * unitPrice);
+        discount = new Discount(p, 5 + " for " + offer.argument, -discountTotal);
         return discount;
     }
 
@@ -86,7 +86,7 @@ public class ShoppingCart {
     private Discount getThreeForTwoDiscount(Product p, double quantity, double unitPrice, int quantityAsInt) {
         Discount discount;
         double discountAmount = quantity * unitPrice
-                - ((quantityAsInt * 2 * unitPrice) + quantityAsInt % 3 * unitPrice);
+                - ((quantityAsInt/3 * 2 * unitPrice) + quantityAsInt % 3 * unitPrice);
         discount = new Discount(p, "3 for 2", -discountAmount);
         return discount;
     }
